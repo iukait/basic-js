@@ -20,8 +20,7 @@ function deleteDigit(n) {
     if (updatedNumber > maxNumber) {
       maxNumber = updatedNumber;
     }
-  }
-
+  };
   return maxNumber;
 }
 console.log(deleteDigit(342));
