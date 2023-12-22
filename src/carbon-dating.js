@@ -18,16 +18,20 @@ const HALF_LIFE_PERIOD = 5730;
  *
  */
 function dateSample(sampleActivity) {
-  if (typeof sampleActivity !== 'string' || !/^\d+(\.\d+)?$/.test(sampleActivity)) {
-    throw new Error("Invalid date!");
-  }
+  // Check if the input is a valid number and within the appropriate range
   const parsedActivity = parseFloat(sampleActivity);
-  if (isNaN(parsedActivity) || parsedActivity <= 0 || parsedActivity > MODERN_ACTIVITY) {
+
+  if (
+    typeof sampleActivity !== 'string' ||
+    isNaN(parseFloat(sampleActivity)) ||
+    parseFloat(sampleActivity) <= 0 ||
+    parseFloat(sampleActivity) > MODERN_ACTIVITY
+  ) {
     return false;
   }
-  const k = 0.693 / HALF_LIFE_PERIOD;
-  const age = Math.ceil(Math.log(MODERN_ACTIVITY / parsedActivity) / k);
-  return age;
+  const age = Math.log(MODERN_ACTIVITY / parsedActivity) / (0.693 / HALF_LIFE_PERIOD);
+
+  return Math.ceil(age);
 }
 
 module.exports = {
