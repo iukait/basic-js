@@ -25,6 +25,7 @@ function getSumOfDigits(n) {
   return result;
 }
 
+console.log(getSumOfDigits(91));
 module.exports = {
   getSumOfDigits
 };

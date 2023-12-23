@@ -7,6 +7,8 @@ const { NotImplementedError } = require('../extensions/index.js');
 const chainMaker = {
   chain: [],
 
+  chain: [],
+
   getLength() {
     return this.chain.length;
   },
@@ -34,7 +36,10 @@ const chainMaker = {
   reverseChain() {
     this.chain.reverse();
     return this;
+    this.chain.reverse();
+    return this;
   },
+
 
   finishChain() {
     const result = this.chain.join('~~');
