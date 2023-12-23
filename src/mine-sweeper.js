@@ -24,10 +24,39 @@ const { NotImplementedError } = require('../extensions/index.js');
  * ]
  */
 function minesweeper(matrix) {
-  const newMatrix = matrix.map((row) =>
-    row.map((col) => (col === true ? 1 : 2))
-  );
-  return newMatrix;
+
+  const rows = matrix.length;
+  const cols = matrix[0].length;
+
+  const newMatrix = [];
+
+  for (let i = 0; i < rows; i++) {
+    const newRow = [];
+    for (let j = 0; j < cols; j++) {
+      if (matrix[i][j] === true) {
+        newRow.push(1); // Если в ячейке есть мина, устанавливаем 1
+      } else {
+        // Считаем количество мин вокруг ячейки
+        let count = 0;
+        for (let x = -1; x <= 1; x++) {
+          for (let y = -1; y <= 1; y++) {
+            const ni = i + x;
+            const nj = j + y;
+            if (
+              ni >= 0 && ni < rows &&
+              nj >= 0 && nj < cols &&
+              matrix[ni][nj] === true
+            ) {
+              count++;
+            }
+          }
+        }
+        newRow.push(count);
+      }
+    }
+    newMatrix.push(newRow);
+  }
+  return newMatrix
 }
 console.log(minesweeper([
   [true, false, false],
