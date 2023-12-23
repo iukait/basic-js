@@ -20,13 +20,51 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 class VigenereCipheringMachine {
-  encrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+
+  constructor(isDirect = true) {
+    if ((!text || !keyword)) {
+      throw new Error('Both text and keyword are required');
+    }
+    this.isDirect = isDirect;
+    this.alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   }
-  decrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+
+  processText(text, keyword, encrypt) {
+    if (!text || !keyword) {
+      throw new Error('Both text and keyword are required');
+    }
+
+    text = text.toUpperCase();
+    keyword = keyword.toUpperCase();
+    let result = '';
+    let keywordIndex = 0;
+
+    for (let i = 0; i < text.length; i++) {
+      const char = text[i];
+
+      if (this.alphabet.indexOf(char) === -1) {
+        // If the character is not in the alphabet, keep it unchanged
+        result += char;
+      } else {
+        const keywordChar = keyword[keywordIndex % keyword.length];
+        const keywordIndexInAlphabet = this.alphabet.indexOf(keywordChar);
+        const shift = encrypt ? keywordIndexInAlphabet : -keywordIndexInAlphabet;
+        const newIndex = (this.alphabet.indexOf(char) + shift + 26) % 26;
+
+        result += this.alphabet[newIndex];
+        keywordIndex++;
+      }
+    }
+
+    return this.isDirect ? result : result.split('').reverse().join('');
+  }
+
+  encrypt(text, keyword) {
+    return this.processText(text, keyword, true);
+  }
+
+  decrypt(text, keyword) {
+    return this.processText(text, keyword, false);
   }
 }
 
